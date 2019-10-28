@@ -1,6 +1,9 @@
 package modb
 
-import "sync"
+import (
+	"errors"
+	"sync"
+)
 
 type MoDB struct {
 	storage map[string][]byte
@@ -21,27 +24,43 @@ func (storage *MoDB) Set(key []byte, value []byte) (err error){
 	return
 }
 
-func (storage *MoDB) Get() (err error){
+func (storage *MoDB) Get(key []byte) (value []byte, err error){
+	storage.lock.Lock()
+	defer storage.lock.Unlock()
+
+	value, ok := storage.storage[string(key)]
+	if(ok){
+		return value, nil
+	}
+	return nil, errors.New("Invalid key")
+}
+
+func (storage *MoDB) Has(key []byte) (hasKey bool,err error){
+	storage.lock.Lock()
+	defer storage.lock.Unlock()
 
 	return
 }
 
-func (storage *MoDB) Delete() (err error){
-
-	return
+func (storage *MoDB) Delete(key []byte) (err error){
+	storage.lock.Lock()
+	defer storage.lock.Unlock()
+	hasKey, _ := storage.Has(key)
+	if hasKey {
+		delete(storage.storage, string(key) )
+		return nil
+	}
+	return errors.New("Invalid key")
 }
 
 func (storage *MoDB) Expire() (err error){
-
 	return
 }
 
 func (storage *MoDB) Close() (err error){
-
 	return
 }
 
 func (storage *MoDB) Size() (size int, err error){
-
-	return
+	return len(storage.storage), nil
 }
