@@ -8,13 +8,16 @@ type MoDB struct {
 }
 
 func NewMoDB() *MoDB{
-
-	return &MoDB{}
+	return &MoDB{
+		storage: make(map[string][]byte),
+	}
 }
 
+func (storage *MoDB) Set(key []byte, value []byte) (err error){
+	storage.lock.Lock()
+	defer storage.lock.Unlock()
 
-func (storage *MoDB) Set() (err error){
-
+	storage.storage[string(key)] = value
 	return
 }
 
