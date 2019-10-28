@@ -16,3 +16,16 @@ In memory database built with Go
         
     Close
         TBA
+
+## REST API 
+    Url: http://127.0.0.1:34443/db
+    
+    SET
+        Method: POST
+        Payload: { "meythod": "SET", "Key": "myKey", "value": "myValue"}
+        
+    GET
+        Method: GET
+        
+    DELETE
+        Method: DELETE        
