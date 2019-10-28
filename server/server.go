@@ -11,8 +11,10 @@ func dbFunc( w http.ResponseWriter, r *http.Request){
 
 	if r.Method == "POST" {
 		fmt.Fprintf(w, "%s", "<h2>MoDB POST</h2>" )
+	}else {
+		fmt.Fprintf(w, "%s", "<h2>MoDB Home</h2>" )
 	}
-	fmt.Fprintf(w, "%s", "<h2>MoDB Home</h2>" )
+
 }
 
 func Serve() {
