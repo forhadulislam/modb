@@ -26,18 +26,21 @@ func Serve(db *modb.MoDB) {
 				log.Println(err)
 			}
 			fmt.Fprintf(writer, "%s", "<h2>MoDB POST</h2>" )
-			fmt.Fprintf(writer, "%s", moData.Key)
+			fmt.Fprintf(writer, "%s : %s", moData.Method, moData.Key)
 
 			// SET
 			if(moData.Method == "SET"){
-				db.Set( []byte(moData.Key), []byte(moData.Value) )
+				error := db.Set( []byte(moData.Key), []byte(moData.Value) )
+				if error != nil {
+					log.Println("Error ", error)
+				}
 			}
 
 			// GET
 			if(moData.Method == "GET"){
 				getdata, error := db.Get( []byte(moData.Key) )
 				if error != nil {
-					log.Println("error ", error)
+					log.Println("Error ", error)
 				}
 				log.Println( "Key: ", moData.Key )
 				log.Println( "Value: ", string(getdata) )
