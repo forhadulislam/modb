@@ -25,7 +25,7 @@ In memory database built with Go
     
     SET
         Method: POST
-        Payload: { "meythod": "SET", "Key": "myKey", "value": "myValue"}
+        Payload: { "method": "SET", "Key": "myKey", "value": "myValue"}
         
     GET
         Method: GET
