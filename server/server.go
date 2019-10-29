@@ -27,48 +27,35 @@ func Serve(db *modb.MoDB) {
 			}
 			fmt.Fprintf(writer, "%s", "<h2>MoDB POST</h2>" )
 			fmt.Fprintf(writer, "%s", moData.Key)
+
+			// SET
 			if(moData.Method == "SET"){
 				db.Set( []byte(moData.Key), []byte(moData.Value) )
 			}
-			log.Println(db)
 
-		} else if request.Method == "PUT"  {
-
-			fmt.Fprintf(writer, "%s", "<h2>MoDB GET</h2>" )
-			decoder := json.NewDecoder(request.Body)
-			var moData MoDBServer
-			error := decoder.Decode(&moData)
-			if error != nil {
-				log.Println("error ", error)
-			}
-
+			// GET
 			if(moData.Method == "GET"){
 				getdata, error := db.Get( []byte(moData.Key) )
 				if error != nil {
 					log.Println("error ", error)
 				}
-				log.Println( moData.Key )
-				log.Println( string(getdata) )
-			}
-			log.Println(db)
-
-		}else if request.Method == "DELETE"  {
-
-			fmt.Fprintf(writer, "%s", "<h2>MoDB DELETE</h2>" )
-			decoder := json.NewDecoder(request.Body)
-			var moData MoDBServer
-			err := decoder.Decode(&moData)
-			if err != nil {
-				log.Println(err)
+				log.Println( "Key: ", moData.Key )
+				log.Println( "Value: ", string(getdata) )
 			}
 
+			// DELETE
 			if(moData.Method == "DELETE"){
 				error := db.Delete( []byte(moData.Key) )
 				if error != nil {
 					log.Println(err)
 				}
 			}
+
 			log.Println(db)
+
+		} else{
+
+			fmt.Fprintf(writer, "%s", "<h2>Method not Allowed</h2>" )
 
 		}
 	})

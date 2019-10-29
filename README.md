@@ -20,15 +20,17 @@ In memory database built with Go
     Close
         TBA
 
-## REST API 
+## REST API
     Url: http://127.0.0.1:34443/db
     
     SET
-        Method: POST
-        Payload: { "method": "SET", "Key": "myKey", "value": "myValue"}
+        HTTP Method: POST
+        Payload: { "Method": "SET", "Key": "myKey", "Value": "myValue"}
         
     GET
-        Method: GET
+        HTTP Method: POST
+        Payload: { "Method": "GET", "Key": "myKey"}
         
     DELETE
-        Method: DELETE        
+        HTTP Method: POST
+        Payload: { "Method": "DELETE", "Key": "myKey"}

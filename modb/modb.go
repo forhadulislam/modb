@@ -35,17 +35,22 @@ func (storage *MoDB) Get(key []byte) (value []byte, err error){
 	return nil, errors.New("Invalid key")
 }
 
-func (storage *MoDB) Has(key []byte) (hasKey bool,err error){
+func (storage *MoDB) Has(key []byte) (hasKey bool){
 	storage.lock.Lock()
 	defer storage.lock.Unlock()
 
-	return
+	_, ok := storage.storage[string(key)]
+	if(ok){
+		return true
+	}
+
+	return false
 }
 
 func (storage *MoDB) Delete(key []byte) (err error){
 	storage.lock.Lock()
 	defer storage.lock.Unlock()
-	hasKey, _ := storage.Has(key)
+	hasKey := storage.Has(key)
 	if hasKey {
 		delete(storage.storage, string(key) )
 		return nil
