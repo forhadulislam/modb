@@ -1,5 +1,6 @@
-
-![#Modb](https://user-images.githubusercontent.com/1941100/67701630-31647580-f9a8-11e9-9617-22f0c9053fde.png?style=centerme)
+<p align="center">
+  <img alt="MoDB" src="https://user-images.githubusercontent.com/1941100/67701630-31647580-f9a8-11e9-9617-22f0c9053fde.png?style=centerme">
+</p>
 
 In memory database built with Go
 
