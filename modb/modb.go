@@ -50,6 +50,7 @@ func (storage *MoDB) Has(key []byte) (hasKey bool){
 func (storage *MoDB) Delete(key []byte) (err error){
 	storage.lock.Lock()
 	defer storage.lock.Unlock()
+
 	hasKey := storage.Has(key)
 	if hasKey {
 		delete(storage.storage, string(key) )
