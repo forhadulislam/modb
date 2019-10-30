@@ -41,7 +41,7 @@ func (storage *MoDB) Has(key []byte) (hasKey bool){
 	defer storage.lock.Unlock()
 
 	_, ok := storage.storage[string(key)]
-	if(ok){
+	if ok{
 		return true
 	}
 

@@ -30,17 +30,17 @@ func Serve(db *modb.MoDB) {
 
 			// SET
 			if(moData.Method == "SET"){
-				error := db.Set( []byte(moData.Key), []byte(moData.Value) )
-				if error != nil {
-					log.Println("Error ", error)
+				err := db.Set( []byte(moData.Key), []byte(moData.Value) )
+				if err != nil {
+					log.Println("Error ", err)
 				}
 			}
 
 			// GET
 			if(moData.Method == "GET"){
-				getdata, error := db.Get( []byte(moData.Key) )
-				if error != nil {
-					log.Println("Error ", error)
+				getdata, err := db.Get( []byte(moData.Key) )
+				if err != nil {
+					log.Println("Error ", err)
 				}
 				log.Println( "Key: ", moData.Key )
 				log.Println( "Value: ", string(getdata) )
@@ -48,9 +48,9 @@ func Serve(db *modb.MoDB) {
 
 			// DELETE
 			if(moData.Method == "DELETE"){
-				error := db.Delete( []byte(moData.Key) )
-				if error != nil {
-					log.Println(error)
+				err := db.Delete( []byte(moData.Key) )
+				if err != nil {
+					log.Println(err)
 				}
 			}
 
