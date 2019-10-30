@@ -50,7 +50,7 @@ func Serve(db *modb.MoDB) {
 			if(moData.Method == "DELETE"){
 				error := db.Delete( []byte(moData.Key) )
 				if error != nil {
-					log.Println(err)
+					log.Println(error)
 				}
 			}
 

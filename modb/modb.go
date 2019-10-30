@@ -2,6 +2,7 @@ package modb
 
 import (
 	"errors"
+	"log"
 	"sync"
 )
 
@@ -52,7 +53,9 @@ func (storage *MoDB) Delete(key []byte) (err error){
 	defer storage.lock.Unlock()
 
 	hasKey := storage.Has(key)
+	log.Println(string(key))
 	if hasKey {
+		log.Println(string(key))
 		delete(storage.storage, string(key) )
 		return nil
 	}
