@@ -10,7 +10,7 @@ import (
 )
 
 var myDB = NewMoDB()
-var totalData = 100
+var totalData = 100000
 var keyList = make([]string, 0)
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -23,15 +23,15 @@ func StringWithCharset(length int, charset string) string {
 	return string(b)
 }
 
-func seedString(length int) string {
+func SeedString(length int) string {
 	return StringWithCharset(length, charset)
 }
 
 func TestMoDB_Set(t *testing.T) {
 	for i:=0; i<totalData; i++ {
 		t.Run("Insert data", func(t *testing.T) {
-			key := []byte(seedString(12))
-			value := []byte(seedString(12))
+			key := []byte(SeedString(12))
+			value := []byte(SeedString(50))
 			keyList = append(keyList, string(key))
 			err := myDB.Set(key, value)
 			if err != nil {
@@ -39,6 +39,10 @@ func TestMoDB_Set(t *testing.T) {
 			}
 		})
 	}
+
+	dbSize, _ := myDB.Size()
+	assert.Equal(t, totalData, dbSize, "Data length should be equal to totalData length")
+	assert.Equal(t, totalData, len(keyList), "keyList length should be equal to totalData length")
 }
 
 func TestMoDB_Delete(t *testing.T) {
@@ -53,17 +57,6 @@ func TestMoDB_Delete(t *testing.T) {
 	}
 	dbSize, _ = myDB.Size()
 	assert.Equal(t, 0, dbSize, "keyList length should be equal to totalData length")
-
-	/*t.Run(tt.name, func(t *testing.T) {
-		storage := &MoDB{
-			storage: tt.fields.storage,
-			lock:    tt.fields.lock,
-		}
-		if err := storage.Delete(tt.args.key); (err != nil) != tt.wantErr {
-			t.Errorf("Delete() error = %v, wantErr %v", err, tt.wantErr)
-		}
-	})*/
-
 }
 
 func TestMoDB_Close(t *testing.T) {
