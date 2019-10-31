@@ -38,7 +38,8 @@ In memory database built with Go
 ## Performance
 
 moDB was tested in a single machine. And the performance was executed to 
-insert a certain amount of data and deleting those. Results are displayed below:
+insert a certain amount of data and deleting those using the builtin methods. 
+Results are displayed below:
 
 <p align="center">
   <img alt="MoDB" src="https://user-images.githubusercontent.com/1941100/67943511-d2d70b80-fbe2-11e9-9f91-ff1a88fe73a8.png">
