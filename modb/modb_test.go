@@ -10,7 +10,7 @@ import (
 )
 
 var myDB = NewMoDB()
-var totalData = 100000
+var totalData = 500000
 var keyList = make([]string, 0)
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
