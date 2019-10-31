@@ -5,7 +5,12 @@ run: ## Run the Database server
 
 .PHONY: test
 test: ## Run all unit tests
-	go test ./...
+    go clean -testcache
+    go test ./...
+
+.PHONY: test-verbose
+test-verbose: ## Run all unit tests
+	go test -v ./...
 
 .PHONY: vendor
 vendor: ## Install all dependencies

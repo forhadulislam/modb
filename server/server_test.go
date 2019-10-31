@@ -1,14 +1,16 @@
 package server
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"math/rand"
-	"modb/modb"
+	"net/http"
 	"testing"
 	"time"
 )
 
-var myDB = modb.NewMoDB()
-var totalData = 100000
+var totalData = 10000
 var keyList = make([]string, 0)
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -26,10 +28,28 @@ func SeedString(length int) string {
 }
 
 func TestServe(t *testing.T) {
+	testUrl := "http://127.0.0.1" + MoDBPort + "/db"
+	for i:=0; i<totalData; i++ {
+		t.Run("Insert data", func(t *testing.T) {
+			requsetBody, err := json.Marshal(map[string]string{
+				"Method": "SET",
+				"Key": SeedString(12),
+				"Value": SeedString(40),
+			})
+			if err != nil {
+				fmt.Errorf("Cannot marshal code")
+			}
 
-	/*for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+			_, err = http.Post(
+				testUrl,
+				"text/plain",
+				bytes.NewBuffer(requsetBody),
+				)
 
+			if err != nil {
+				fmt.Errorf("Error happened")
+			}
 		})
-	}*/
+	}
+
 }

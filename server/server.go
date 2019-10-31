@@ -7,7 +7,7 @@ import (
 	"modb/modb"
 	"net/http"
 )
-const MoDBPort = "34443"
+const MoDBPort = ":34443"
 
 type MoDBServer struct {
 	Method string
@@ -15,8 +15,9 @@ type MoDBServer struct {
 	Value string
 }
 
-func Serve(db *modb.MoDB) {
-	http.HandleFunc("/db", func(writer http.ResponseWriter, request *http.Request) {
+func Serve(db *modb.MoDB) *http.Server {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/db", func(writer http.ResponseWriter, request *http.Request) {
 		if request.Method == "POST" {
 
 			decoder := json.NewDecoder(request.Body)
@@ -54,7 +55,7 @@ func Serve(db *modb.MoDB) {
 				}
 			}
 
-			log.Println(db)
+			//log.Println(db)
 
 		} else{
 
@@ -62,6 +63,15 @@ func Serve(db *modb.MoDB) {
 
 		}
 	})
-	fmt.Println("MoDB server is running at : http://127.0.0.1:" + MoDBPort + "/db")
-	http.ListenAndServe(":" + MoDBPort, nil)
+	srv := &http.Server{
+		Addr:   MoDBPort,
+		Handler: mux,
+	}
+
+	fmt.Println("MoDB server is running at : http://127.0.0.1" + srv.Addr + "/db")
+	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
+		log.Fatalf("ListenAndServe(): %s", err)
+	}
+
+	return srv
 }
